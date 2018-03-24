@@ -44,7 +44,7 @@ class SignInFormFactory
 				$this->user->setExpiration($values->remember ? '14 days' : '20 minutes');
 				$this->user->login($values->username, $values->password);
 			} catch (Nette\Security\AuthenticationException $e) {
-				$form->addError('The username or password you entered is incorrect.');
+				$form->addError($e);
 				return;
 			}
 			$onSuccess();
