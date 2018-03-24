@@ -61,3 +61,16 @@ body, html {
 	background-size: cover;
 	background-position: center center;
 }
+.br-n
+{
+	border-radius: 0%;
+	width: 100%;
+}
+.npad
+{
+	padding: 0px;
+}
+.row-pad
+{
+	padding: 0px 15px 0px 15px;
+}

@@ -4,9 +4,27 @@
 <div class="row mb-2 profile">
     <div class="col">
         <div class="card">
-            <div class="profile-header" style="background-image: url({$basePath}/img/profile-test-header.jpg)">
-                <div class="profile-picture" style="background-image: url({$basePath}/img/profile-test-picture.jpg)"></div>
+            <div class="profile-header" style="background-image: url({$basePath."/".$user->headerPicPath})">
+                <div class="profile-picture" style="background-image: url({$basePath."/".$user->profPicPath})"></div>
             </div>
+            <div class="row row-pad">
+                <div class="col-sm npad">
+                <button class="btn btn-sm btn-primary br-n" onclick="ShowFP()">
+                    Změnit profilový obrázek
+                </button>
+                </div>
+                <div class="col-sm npad">
+                    <button class="btn btn-sm btn-primary br-n" onclick="ShowFB()">
+                        Změnit obrázek v pozadí
+                    </button>
+                </div>
+            </div>
+                <div id="uploadFP" style="display: none">
+                    {control uploadProfForm}
+                </div>
+                <div id="uploadFB" style="display: none">
+                    {control uploadBackForm}
+                </div>
             <div class="card-block">
                 <p class="card-text">Něco málo o mě</p>
             </div>
@@ -19,7 +37,7 @@
             <div class="card wall-post">
                 <div class="card-block">
                     <div class="profile-header">
-                        <div class="profile-img" style="background-image: url({$basePath}/img/profile-test-picture.jpg)"></div>
+                        <div class="profile-img" style="background-image: url({$basePath."/".$user->profPicPath})"></div>
                         <div class="profile-name">
                             Karel Gott
                         </div>
@@ -40,3 +58,22 @@
         </div>
     </div>
 {/foreach}
+
+<script>
+function ShowFP() {
+    var x = document.getElementById("uploadFP");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+function ShowFB() {
+    var x = document.getElementById("uploadFB");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>
