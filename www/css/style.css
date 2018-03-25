@@ -74,3 +74,9 @@ body, html {
 {
 	padding: 0px 15px 0px 15px;
 }
+.date
+{
+	padding-left: 15px;
+	font-size: 0.8em;
+	color: #949494;
+}

@@ -3,37 +3,47 @@
 {block content}
 <div class="row mb-2">
     <div class="col">
-        <form class="status-form">
+        <form class="status-form" n:name=stuffForm>
             <div class="form-group">
-                <textarea class="form-control" rows="3" placeholder="Co se máte na srdci?"></textarea>
+                <textarea class="form-control" rows="3" placeholder="Co se máte na srdci?" n:name=text></textarea>
             </div>
             <div class="form-group text-right">
-                <a href="#" class="btn btn-primary">
+                <button href="#" class="btn btn-primary" n:name=send>
                     <i class="fas fa-share-square"></i> Post
-                </a>
+                </button>
             </div>
         </form>
     </div>
 </div>
-{foreach [1,2,3,4,5,6] as $item}
+{foreach $stuffs as $stuff}
 <div class="row mb-1">
     <div class="col">
         <div class="card wall-post">
             <div class="card-block">
                 <div class="profile-header">
-                    <div class="profile-img"></div>
+                    <div class="profile-img" style="background-image: url({$basePath."/".$users[$stuff->userId]->profPicPath})"></div>
                     <div class="profile-name">
-                        Karel Novák
+                        {$users[$stuff->userId]->name.' '.$users[$stuff->userId]->lastname}
                     </div>
+                    {if $stuff->userId == $user->id}
+                    <div class="text-right"><a n:href="Homepage:delete $stuff->id">X</a></div>
+                    {/if}
                 </div>
             </div>
+            <div class="date">{$stuff->addAt|date:'j. m. Y'}</div>
             <div class="card-block py-1">
-                This is some text within a card block. {$item}
+                {$stuff->content}
             </div>
             <div class="card-block">
-                <a href="#" class="btn btn-sm btn-success">
+            {if Nette\Utils\Arrays::get($likes, $stuff->id, 'false') != 'false' }
+                <a n:href="Homepage:like $stuff->id" class="btn btn-sm btn-success">
+                    <i class="fas fa-thumbs-up"></i> Unlike
+                </a>
+            {else}
+                <a n:href="Homepage:like $stuff->id" class="btn btn-sm btn-success">
                     <i class="fas fa-thumbs-up"></i> Like
                 </a>
+            {/if}
                 <a href="#" class="btn btn-sm btn-primary">
                     <i class="fas fa-share"></i> Share
                 </a>
