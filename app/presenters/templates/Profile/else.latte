@@ -9,19 +9,19 @@
             </div>
             <div class="row row-pad">
                 <div class="col-sm npad">
-                <button class="btn btn-sm btn-primary br-n" onclick="ShowFP()">
-                    Přidat do přítel
-                </button>
-                </div>
-                <div class="col-sm npad">
-                <button class="btn btn-sm btn-primary br-n" onclick="ShowFP()">
-                    Změnit profilový obrázek
-                </button>
-                </div>
-                <div class="col-sm npad">
-                    <button class="btn btn-sm btn-primary br-n" onclick="ShowFB()">
-                        Změnit obrázek v pozadí
-                    </button>
+                {if Nette\Utils\Arrays::get($linkedFriendsIds, $user->id, 'false') != 'false'}
+                    <a n:href="Profile:addfriend $user->id">
+                        <button class="btn btn-sm btn-primary br-n">
+                            Odebrat z přátel
+                        </button>
+                    </a>
+                {else}
+                    <a n:href="Profile:addfriend $user->id">
+                        <button class="btn btn-sm btn-primary br-n">
+                            Přidat do přátel
+                        </button>
+                    </a>
+                {/if}
                 </div>
             </div>
                 <div id="uploadFP" style="display: none">
@@ -63,22 +63,3 @@
         </div>
     </div>
 {/foreach}
-
-<script>
-function ShowFP() {
-    var x = document.getElementById("uploadFP");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-function ShowFB() {
-    var x = document.getElementById("uploadFB");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-</script>

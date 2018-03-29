@@ -30,15 +30,15 @@
 						<a class="nav-link" n:href="Profile:">Upravit Profil</a>
 					</li>
 				</ul>
-				<form class="form-inline my-3 my-lg-0">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				<form class="form-inline my-3 my-lg-0" n:name=searchForm>
+					<input class="form-control mr-sm-2" type="text" placeholder="Search" n:name=name>
+					<button class="btn btn-outline-success my-2 my-sm-0" n:name=send>Search</button>
+				</form>
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
 							<a class="nav-link" n:href='Sign:out'>Odhlásit se</a>
 						</li>
 					</ul>
-				</form>
 			</div>
 		</nav>
 	</div>

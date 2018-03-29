@@ -1,0 +1,40 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+
+{foreach $friends as $friend}
+    {if $friend->id != $user->id}
+        <div class="row mb-1">
+            <div class="col">
+                <div class="card wall-post">
+                    <div class="card-block">
+                        <div class="profile-header">
+                            <div class="profile-img" style="background-image: url({$basePath."/".$friend->profPicPath})"></div>
+                            <div class="profile-name">
+                                <a n:href="Profile:else $friend->id">
+                                    {$friend->name." ".$friend->lastname}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block py-1">
+                        This is some text within a card block.
+                    </div>
+                    {if Nette\Utils\Arrays::get($linkedFriendsIds, $friend->id, 'false') != 'false'}
+                        <div class="card-block">
+                            <a n:href="Profile:addfriend $friend->id" class="btn btn-sm btn-success">
+                                Delete from friends
+                            </a>
+                        </div>
+                    {else}
+                        <div class="card-block">
+                            <a n:href="Profile:addfriend $friend->id" class="btn btn-sm btn-success">
+                                Add to friends
+                            </a>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
+{/foreach}
