@@ -65,11 +65,11 @@ class ProfilePresenter extends BasePresenter
 
     public function renderElse($id)
     {
-        $this->template->user = $this->database->table('users')
+        $this->template->visitedUser = $this->database->table('users')
 							  ->where('id', $id)
 							  ->fetch();
         $this->template->linkedFriendsIds = $this->database->table('friends')->where('idUser1', $this->getUser()->id)->fetchPairs('idUser2', 'idUser1');
-
+        $user = $this->getUser();
     }
 
     public function createComponentUploadProfForm()
@@ -110,7 +110,7 @@ class ProfilePresenter extends BasePresenter
         $form = new Form;
         // Tlačítko pro vybrání souboru
         $form->addUpload('image')
-             ->setRequired('Prosím vyberte soubor');
+        ->setRequired('Prosím vyberte soubor');
         // Odeslání
         $form->addSubmit('send', 'Nahrát');
         // Callback logiky
@@ -135,6 +135,42 @@ class ProfilePresenter extends BasePresenter
 
         }
         $this->redirect('this');
+    }
+
+
+    public function createComponentInfoForm()
+    {
+        $user = $this->database->table('users')
+							  ->where('id', $this->getUser()->id)
+							  ->fetch();
+        // Vytvoří nový form
+        $form = new Form;
+
+        $form->addText('about')
+        ->setDefaultValue($user->about);
+
+        $form->addText("name", "Name")
+        ->setDefaultValue($user->name);
+        $form->addText("lastname", "Surname")
+        ->setDefaultValue($user->lastname);
+        // Odeslání;
+        $form->addSubmit('save', 'Save');
+        // Callback logiky
+        $form->onSuccess[] = array($this, 'infoFormSucceeded');
+
+        // Vrátí formulář
+        return $form;
+    }
+
+    public function infoFormSucceeded(Form $form, $values)
+    {
+        $this->database->table('users')->where('id', $this->getUser()->id)->update([
+            'about' => $values->about,
+            'name' => $values->name,
+            'lastname' => $values->lastname
+        ]);
+
+        $this->redirect('Profile:else', $this->getUser()->id);
     }
 
     public function actionAddfriend($id)

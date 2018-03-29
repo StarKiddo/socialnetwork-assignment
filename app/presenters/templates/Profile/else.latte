@@ -4,19 +4,19 @@
 <div class="row mb-2 profile">
     <div class="col">
         <div class="card">
-            <div class="profile-header" style="background-image: url({$basePath."/".$user->headerPicPath})">
-                <div class="profile-picture" style="background-image: url({$basePath."/".$user->profPicPath})"></div>
+            <div class="profile-header" style="background-image: url({$basePath."/".$visitedUser->headerPicPath})">
+                <div class="profile-picture" style="background-image: url({$basePath."/".$visitedUser->profPicPath})"></div>
             </div>
             <div class="row row-pad">
                 <div class="col-sm npad">
-                {if Nette\Utils\Arrays::get($linkedFriendsIds, $user->id, 'false') != 'false'}
-                    <a n:href="Profile:addfriend $user->id">
+                {if Nette\Utils\Arrays::get($linkedFriendsIds, $visitedUser->id, 'false') != 'false'}
+                    <a n:href="Profile:addfriend $visitedUser->id">
                         <button class="btn btn-sm btn-primary br-n">
                             Odebrat z přátel
                         </button>
                     </a>
                 {else}
-                    <a n:href="Profile:addfriend $user->id">
+                    <a n:href="Profile:addfriend $visitedUser->id">
                         <button class="btn btn-sm btn-primary br-n">
                             Přidat do přátel
                         </button>
@@ -31,7 +31,7 @@
                     {control uploadBackForm}
                 </div>
             <div class="card-block">
-                <p class="card-text">Něco málo o mě</p>
+                <p class="card-text">{$visitedUser->about}</p>
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
             <div class="card wall-post">
                 <div class="card-block">
                     <div class="profile-header">
-                        <div class="profile-img" style="background-image: url({$basePath."/".$user->profPicPath})"></div>
+                        <div class="profile-img" style="background-image: url({$basePath."/".$visitedUser->profPicPath})"></div>
                         <div class="profile-name">
                             Karel Gott
                         </div>

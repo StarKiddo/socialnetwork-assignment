@@ -8,6 +8,11 @@
 	<link href="{$basePath}/bower_components/tether/dist/css/tether.min.css" rel="stylesheet" type="text/css">
 	<link href="{$basePath}/bower_components/Font-Awesome/svg-with-js/css/fa-svg-with-js.css" rel="stylesheet" type="text/css">
 	<link href="{$basePath}/css/style.css" rel="stylesheet" type="text/css">
+	<link href="{$basePath}/css/datepicker.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{$basePath}/js/bootstrap-datepicker.js"></script>
+		<!-- JQuerry 3 -->
+	<script type="text/javascript" src="{$basePath}/js/jquery-3.2.1.min.js"></script>
+	<script src="{$basePath}/js/popper.js"></script>
 
 	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
 </head>
@@ -26,17 +31,20 @@
 					<li n:class="$presenter->isLinkCurrent('Homepage:') ? active, nav-item">
 						<a class="nav-link" n:href="Homepage:">Home <span class="sr-only">(current)</span></a>
 					</li>
-					<li n:class="$presenter->isLinkCurrent('Profile:') ? active, nav-item">
-						<a class="nav-link" n:href="Profile:">Upravit Profil</a>
+					<li n:class="$presenter->isLinkCurrent('Profile:') ? active, nav-it">
+						<a class="nav-link" n:href="Profile:">Edit profile</a>
+					</li>
+					<li n:class="$presenter->isLinkCurrent('Profile:else') ? active, nav-item">
+						<a class="nav-link" n:href="Profile:else $user->id">My profile</a>
 					</li>
 				</ul>
-				<form class="form-inline my-3 my-lg-0" n:name=searchForm>
+				<form class="form-inline my-2 my-lg-0" n:name=searchForm>
 					<input class="form-control mr-sm-2" type="text" placeholder="Search" n:name=name>
 					<button class="btn btn-outline-success my-2 my-sm-0" n:name=send>Search</button>
 				</form>
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link" n:href='Sign:out'>Odhlásit se</a>
+							<a class="nav-link" n:href='Sign:out'>Log out</a>
 						</li>
 					</ul>
 			</div>
@@ -75,7 +83,21 @@
 		<script type="text/javascript" src="{$basePath}/bower_components/tether/dist/js/tether.min.js"></script>
 		<script type="text/javascript" src="{$basePath}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="{$basePath}/bower_components/Font-Awesome/svg-with-js/js/fontawesome-all.min.js"></script>
+			<!-- Popper JS pro Bootstrap -->
+		<script src="{$basePath}/js/popper.js"></script>
+			<!-- JS pro Bootstrap -->
+	<script src="{$basePath}/js/bootstrap.min.js"></script>
 		<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+			<script>
+				var dtpicker = $('.dtpicker').datepicker({
+					format: 'dd.mm.yyyy',
+					weekStart: 1,
+					autoclose: true
+				}).on('changeDate', function(ev) {
+					$(this).click().blur();
+					$(this).datepicker('hide');
+				});
+			</script>
 	{/block}
 </body>
 </html>
