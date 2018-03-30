@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Utils\Strings;
 
 
 class HomepagePresenter extends BasePresenter
@@ -18,6 +19,7 @@ class HomepagePresenter extends BasePresenter
 
         $this->template->users = $this->database->table('users');
         $this->template->likes = $this->database->table('likes')->where('userId', $this->getUser()->id)->fetchPairs('stuffId', 'userId');
+        $this->template->linkedFriendsIds = $this->database->table('friends')->where('idUser1', $this->getUser()->id)->fetchPairs('idUser2', 'idUser1');
     }
     public function createComponentStuffForm()
     {
@@ -37,11 +39,34 @@ class HomepagePresenter extends BasePresenter
 
     public function stuffFormSucceeded(Form $form, $values)
     {
-        $this->database->table('stuff')->insert([
-            'content' => $values->text,
-            'userId' => $this->getUser()->id,
-            'addAt' => date('Y-m-d H:i:s')
-        ]);
+        $videoPath;
+        if (Strings::contains($values->text, "www.youtube.com")) {
+            $videoPath = Strings::split($values->text, '~=~');
+
+            $this->database->table('stuff')->insert([
+                'content' => $values->text,
+                'userId' => $this->getUser()->id,
+                'addAt' => date('Y-m-d H:i:s'),
+                'pic' => "https://img.youtube.com/vi/".$videoPath[1]."/default.jpg"
+            ]);
+        }
+        else if (Strings::contains($values->text, ".jpg")||Strings::contains($values->text, ".jpeg")||Strings::contains($values->text, ".gif")||Strings::contains($values->text, ".tif")||Strings::contains($values->text, ".bmp")||Strings::contains($values->text, ".png"))
+        {
+            $this->database->table('stuff')->insert([
+                'content' => $values->text,
+                'userId' => $this->getUser()->id,
+                'addAt' => date('Y-m-d H:i:s'),
+                'pic' => $values->text
+            ]);
+        }
+        else
+        {
+            $this->database->table('stuff')->insert([
+                'content' => $values->text,
+                'userId' => $this->getUser()->id,
+                'addAt' => date('Y-m-d H:i:s')
+            ]);
+        }
         $this->redirect('this');
     }
 
@@ -64,6 +89,18 @@ class HomepagePresenter extends BasePresenter
     {
         $this->database->table('stuff')->where('id = ?', $stuffId)->delete();
 
+        $this->redirect('Homepage:');
+    }
+
+    public function actionShare($text, $id, $picPath)
+    {
+            $this->database->table('stuff')->insert([
+            'content' => $text,
+            'shareId' => $this->getUser()->id,
+            'addAt' => date('Y-m-d H:i:s'),
+            'userId' => $id,
+            'pic' => $picPath
+        ]);
         $this->redirect('Homepage:');
     }
 }

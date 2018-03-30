@@ -16,39 +16,52 @@
     </div>
 </div>
 {foreach $stuffs as $stuff}
-<div class="row mb-1">
-    <div class="col">
-        <div class="card wall-post">
-            <div class="card-block">
-                <div class="profile-header">
-                    <div class="profile-img" style="background-image: url({$basePath."/".$users[$stuff->userId]->profPicPath})"></div>
-                    <div class="profile-name">
-                        {$users[$stuff->userId]->name.' '.$users[$stuff->userId]->lastname}
+    {if Nette\Utils\Arrays::get($linkedFriendsIds, $stuff->userId, 'false') != 'false' || $user->id == $stuff->userId || Nette\Utils\Arrays::get($linkedFriendsIds, $stuff->shareId, 'false') != 'false' || $stuff->userId == $user->id}
+        <div class="row mb-1">
+            <div class="col">
+                <div class="card wall-post">
+                    <div class="card-block">
+                        <div class="profile-header">
+                            <div class="profile-img" style="background-image: url({$basePath."/".$users[$stuff->userId]->profPicPath})"></div>
+                            <div class="profile-name">
+                                {if $stuff->shareId == 0}
+                                    {$users[$stuff->userId]->name.' '.$users[$stuff->userId]->lastname}
+                                {else}
+                                    {$users[$stuff->shareId]->name.' '.$users[$stuff->shareId]->lastname.' shared from: '.$users[$stuff->userId]->name.' '.$users[$stuff->userId]->lastname}
+                                {/if}
+                            </div>
+                            {if $stuff->userId == $user->id || $stuff->shareId == $user->id}
+                            <div class="text-right"><a n:href="Homepage:delete $stuff->id">X</a></div>
+                            {/if}
+                        </div>
                     </div>
-                    {if $stuff->userId == $user->id}
-                    <div class="text-right"><a n:href="Homepage:delete $stuff->id">X</a></div>
+                    <div class="date">{$stuff->addAt|date:'j. m. Y'}</div>
+                    <div class="card-block py-1">
+                        {if $stuff->pic != "0"}
+                            <a href={$stuff->content}><img src={$stuff->pic}></img><br>
+                                {$stuff->content}</a>
+                        {else}
+                        {$stuff->content}
+                        {/if}
+                    </div>
+                    <div class="card-block">
+                    {if Nette\Utils\Arrays::get($likes, $stuff->id, 'false') != 'false' }
+                        <a n:href="Homepage:like $stuff->id" class="btn btn-sm btn-success">
+                            <i class="fas fa-thumbs-up"></i> Unlike
+                        </a>
+                    {else}
+                        <a n:href="Homepage:like $stuff->id" class="btn btn-sm btn-success">
+                            <i class="fas fa-thumbs-up"></i> Like
+                        </a>
                     {/if}
+                    {if $stuff->userId != $user->id}
+                        <a n:href="Homepage:share $stuff->content, $stuff->userId, $stuff->pic" class="btn btn-sm btn-primary">
+                            <i class="fas fa-share"></i> Share
+                        </a>
+                    {/if}
+                    </div>
                 </div>
             </div>
-            <div class="date">{$stuff->addAt|date:'j. m. Y'}</div>
-            <div class="card-block py-1">
-                {$stuff->content}
-            </div>
-            <div class="card-block">
-            {if Nette\Utils\Arrays::get($likes, $stuff->id, 'false') != 'false' }
-                <a n:href="Homepage:like $stuff->id" class="btn btn-sm btn-success">
-                    <i class="fas fa-thumbs-up"></i> Unlike
-                </a>
-            {else}
-                <a n:href="Homepage:like $stuff->id" class="btn btn-sm btn-success">
-                    <i class="fas fa-thumbs-up"></i> Like
-                </a>
-            {/if}
-                <a href="#" class="btn btn-sm btn-primary">
-                    <i class="fas fa-share"></i> Share
-                </a>
-            </div>
         </div>
-    </div>
-</div>
+    {/if}
 {/foreach}

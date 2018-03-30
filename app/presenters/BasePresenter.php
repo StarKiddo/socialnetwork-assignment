@@ -10,6 +10,16 @@ use App\Forms;
 // Base presenetr pro všechny apliakční presentery
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
+
+        // Databáze
+        public $database;
+
+        // Session
+        public $session;
+
+        // Sekce
+        public $mySection;
+
     // Konstruktor
     function __construct(Nette\Database\Context $database, Nette\Http\Session $session)
     {
@@ -61,15 +71,4 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		}
 
 	}
-
-    // Databáze
-    public $database;
-
-    // Session
-    public $session;
-
-    // Sekce
-    public $mySection;
-
-
 }

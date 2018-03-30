@@ -1,0 +1,39 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+    <div class="row mb-2 profile">
+        <div class="col">
+            <div class="card">
+                <div class="profile-header" style="background-image: url({$basePath."/".$user->headerPicPath})">
+                </div>
+                <div class="row row-pad">
+                    <div class="col-sm npad">
+                        <button class="btn btn-sm btn-primary br-n" onclick="ShowFB()">
+                            Změnit obrázek v pozadí
+                        </button>
+                    </div>
+                </div>
+                    <div id="uploadFB" style="display: none">
+                        {control uploadBackGroupForm}
+                    </div>
+                <form n:name=createGroupForm>
+                    <div class="card-block">
+                        <label>Name: </label><br>
+                        <input n:name=name><br>
+                        <label>Description: </label><textarea class ="input" n:name=description></textarea>
+                        <input n:name=create class="btn btn-sm btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script>
+function ShowFB() {
+    var x = document.getElementById("uploadFB");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>

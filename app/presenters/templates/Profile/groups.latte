@@ -1,0 +1,37 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+    {foreach $friends as $friend}
+            <div class="row mb-1">
+                <div class="col">
+                    <div class="card wall-post">
+                        <div class="card-block">
+                            <div class="profile-header">
+                                <div class="profile-img" style="background-image: url({$basePath."/".$friend->picPath})"></div>
+                                <div class="profile-name">
+                                    <a n:href="Profile:group $friend->name">
+                                        {$friend->name}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-block py-1">
+                            {$friend->description}
+                        </div>
+                            {if Nette\Utils\Arrays::get($linkedFriendsIds, $friend->id, 'false') != 'false'}
+                                <div class="card-block">
+                                    <a n:href="Profile:joinGroup $friend->id" class="btn btn-sm btn-success">
+                                        Leave Group
+                                    </a>
+                                </div>
+                            {else}
+                                <div class="card-block">
+                                    <a n:href="Profile:joinGroup $friend->id" class="btn btn-sm btn-success">
+                                        Join Group
+                                    </a>
+                                </div>
+                            {/if}
+                    </div>
+                </div>
+            </div>
+    {/foreach}

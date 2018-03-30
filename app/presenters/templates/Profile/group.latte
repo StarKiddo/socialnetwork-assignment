@@ -1,0 +1,120 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+    <div class="row mb-2 profile">
+        <div class="col">
+            <div class="card">
+                <div class="profile-header" style="background-image: url({$basePath."/".$group->picPath})">
+                </div>
+                <div class="row row-pad center">
+                    {$group->name}&nbsp
+                    <a n:href="Profile:members $group->id">Members({$memberCount})</a>
+                </div>
+                <div class="row row-pad">
+                    <div class="col-sm npad">
+                        <button class="btn btn-sm btn-primary br-n" onclick="ShowFB()">
+                            Změnit obrázek v pozadí
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm npad">
+                        {if Nette\Utils\Arrays::get($linkedFriendsIds, $group->id, 'false') != 'false'}
+                            <a n:href="Profile:joinGroup $group->id">
+                                <button class="btn btn-sm btn-primary br-n">
+                                    Leave group
+                                </button>
+                            </a>
+                        {else}
+                            <a n:href="Profile:joinGroup $group->id">
+                                <button class="btn btn-sm btn-primary br-n">
+                                    Join group
+                                </button>
+                            </a>
+                        {/if}
+                </div>
+                <div id="uploadFB" style="display: none">
+                    {control uploadBackGroupForm}
+                </div>
+                <divc class="card-block"></div>
+                    <div class="card-block">
+                        Description:<br>
+                        {$group->description}
+                    </div>
+            </div>
+        </div>
+    {if Nette\Utils\Arrays::get($linkedFriendsIds, $group->id, 'false') != 'false'}
+            <div class="row mb-2">
+                <div class="col">
+                    <form class="status-form" n:name=stuffGroupForm>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Co se máte na srdci?" n:name=text></textarea>
+                        </div>
+                        <div class="form-group text-right">
+                            <button href="#" class="btn btn-primary" n:name=send>
+                                <i class="fas fa-share-square"></i> Post
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {foreach $stuffs as $stuff}
+        <div class="row mb-1">
+            <div class="col">
+                <div class="card wall-post">
+                    <div class="card-block">
+                        <div class="profile-header">
+                            <div class="profile-img" style="background-image: url({$basePath."/".$users[$stuff->userId]->profPicPath})"></div>
+                                <div class="profile-name">
+                                {if $stuff->shareId == 0}
+                                    {$users[$stuff->userId]->name.' '.$users[$stuff->userId]->lastname}
+                                {else}
+                                    {$users[$stuff->shareId]->name.' '.$users[$stuff->shareId]->lastname.' shared from: '.$users[$stuff->userId]->name.' '.$users[$stuff->userId]->lastname}
+                                {/if}
+                            </div>
+                            {if $stuff->userId == $user->id  || $stuff->shareId == $user->id}
+                            <div class="text-right"><a n:href="Profile:groupDelete $stuff->id">X</a></div>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="date">{$stuff->addAt|date:'j. m. Y'}</div>
+                    <div class="card-block py-1">
+                        {if $stuff->pic != "0"}
+                            <a href={$stuff->content}><img src={$stuff->pic}></img><br>
+                                {$stuff->content}</a>
+                        {else}
+                        {$stuff->content}
+                        {/if}
+                    </div>
+                    <div class="card-block">
+                    {if Nette\Utils\Arrays::get($likes, $stuff->id, 'false') != 'false' }
+                        <a n:href="Profile:groupLike $stuff->id" class="btn btn-sm btn-success">
+                            <i class="fas fa-thumbs-up"></i> Unlike
+                        </a>
+                    {else}
+                        <a n:href="Profile:groupLike $stuff->id" class="btn btn-sm btn-success">
+                            <i class="fas fa-thumbs-up"></i> Like
+                        </a>
+                    {/if}
+                    {if $stuff->userId != $user->id}
+                        <a n:href="Profile:groupShare $stuff->content, $stuff->userId, $stuff->pic" class="btn btn-sm btn-primary">
+                            <i class="fas fa-share"></i> Share
+                        </a>
+                    {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/foreach}
+    {else}
+    <div>You must join this group first.</div>
+    {/if}
+    <script>
+    function ShowFB() {
+        var x = document.getElementById("uploadFB");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    </script>

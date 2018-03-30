@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="card-block py-1">
-                        This is some text within a card block.
+                        {$friend->about}
                     </div>
                     {if Nette\Utils\Arrays::get($linkedFriendsIds, $friend->id, 'false') != 'false'}
                         <div class="card-block">
@@ -37,4 +37,26 @@
             </div>
         </div>
     {/if}
+{/foreach}
+{foreach $groups as $group}
+        <div class="row mb-1">
+            <div class="col">
+                <div class="card wall-post">
+                    <div class="card-block">
+                        <div class="profile-header">
+                            <div class="profile-img" style="background-image: url({$basePath."/".$group->picPath})"></div>
+                            <div class="profile-name">
+                                <a n:href="Profile:group $group->name">
+                                    {$group->name}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block py-1">
+                        {$group->description}
+                    </div>
+
+                </div>
+            </div>
+        </div>
 {/foreach}

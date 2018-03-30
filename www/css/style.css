@@ -87,3 +87,14 @@ body, html {
     margin-top: 4px;
     margin-bottom: 4px;
 }
+
+.center
+{
+	display: flex;
+	flex: auto;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	justify-content: center;
+	align-items: center;
+}
